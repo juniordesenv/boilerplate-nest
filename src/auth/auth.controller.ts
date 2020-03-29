@@ -53,6 +53,12 @@ export class AuthController {
       await this.authService.createUser(createUserDto);
       return 'Cadastro efetuado com sucesso!';
     } catch (err) {
+      if (err.code === 11000) {
+        throw new HttpException({
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Email já cadastrado na base!',
+        }, HttpStatus.BAD_REQUEST);
+      }
       throw new HttpException({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         error: 'Erro inesperado',

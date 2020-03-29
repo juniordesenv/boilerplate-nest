@@ -9,12 +9,14 @@ import { AuthController } from './auth/auth.controller';
 
 import { DbModule } from '~/config/db.module';
 import { MailerModule } from '~/config/mailer.module';
+import { SentryModule } from '~/config/sentry.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     DbModule,
     MailerModule,
+    SentryModule,
     UsersModule,
     AuthModule,
   ],

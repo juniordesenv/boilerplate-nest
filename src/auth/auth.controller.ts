@@ -47,12 +47,19 @@ export class AuthController {
 
   @Post('auth/registry')
   @ApiResponse({ status: 201, description: 'Cadastro efetuado com sucesso!' })
+  @ApiResponse({ status: 400, description: 'Email já cadastrado!' })
   @ApiResponse({ status: 500, description: 'Erro inesperado' })
   async registry(@Body() createUserDto: CreateUserDto) {
     try {
       await this.authService.createUser(createUserDto);
       return 'Cadastro efetuado com sucesso!';
     } catch (err) {
+      if (err.code === 11000) {
+        throw new HttpException({
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Email já cadastrado!',
+        }, HttpStatus.BAD_REQUEST);
+      }
       throw new HttpException({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         error: 'Erro inesperado',

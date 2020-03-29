@@ -33,12 +33,12 @@ describe('AuthController (e2e)', () => {
 
     usersCollection = app.get<Collection<UserModel>>(getModelToken('User'));
 
-    await usersCollection.remove({});
-    //  await usersCollection.create({
-    //     name: 'Test name',
-    //      email: 'jr.miranda@outlook.com',
-    //       password: '123456'
-    //     });
+    await usersCollection.deleteMany({});
+    await usersCollection.create({
+      name: 'Test name',
+      email: 'test@test.com',
+      password: '123456',
+    });
   });
 
   it('/auth/registry (POST)', () => request(app.getHttpServer())
@@ -46,4 +46,11 @@ describe('AuthController (e2e)', () => {
     .send({ name: 'Test name', email: 'jr.miranda@outlook.com', password: '123456' })
     .expect(201)
     .expect('Cadastro efetuado com sucesso!'));
+
+
+  it('/auth/registry (POST)', () => request(app.getHttpServer())
+    .post('/auth/registry')
+    .send({ name: 'Test name', email: 'test@test.com', password: '123456' })
+    .expect(400)
+    .expect({ status: 400, error: 'Email já cadastrado na base!' }));
 });

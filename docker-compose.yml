@@ -1,0 +1,39 @@
+version: '3'
+networks: 
+  nest:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+services:
+  redis:
+    image: redis
+    networks:
+      - nest
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+  db:
+    image: mongo
+    logging:
+      driver: none 
+    networks:
+      nest:
+        ipv4_address: 172.28.0.18
+    volumes:
+      - /home/junior/mongodb/nest:/data/db
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    links:
+      - db
+      - redis
+    networks:
+      - nest
+    volumes:
+      - .:/home/api
+    command: 'yarn start:dev'

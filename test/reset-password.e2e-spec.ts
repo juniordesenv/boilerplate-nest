@@ -6,6 +6,7 @@ import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { getModelToken } from '@nestjs/mongoose';
+import * as redis from 'redis-mock';
 import { AppModule } from '../src/app.module';
 import { ResetPasswordModel } from '~/interfaces/reset-password';
 import { UserModel } from '~/interfaces/users';
@@ -24,6 +25,7 @@ describe('ResetPasswordController (e2e)', () => {
   };
 
   beforeAll(async () => {
+    await redis.createClient();
     const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     })

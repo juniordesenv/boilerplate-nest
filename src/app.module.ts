@@ -13,6 +13,7 @@ import { ResetPasswordController } from './reset-password/reset-password.control
 import { DbModule } from '~/config/db.module';
 import { MailerModule } from '~/config/mailer.module';
 import { SentryModule } from '~/config/sentry.module';
+import { BullModule } from '~/config/queue.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SentryModule } from '~/config/sentry.module';
     SentryModule,
     UsersModule,
     AuthModule,
+    BullModule('default'),
     ResetPasswordModule,
   ],
   controllers: [

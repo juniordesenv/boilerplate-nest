@@ -1,12 +1,15 @@
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import * as redis from 'redis-mock';
 import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
+    await redis.createClient();
+
     const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

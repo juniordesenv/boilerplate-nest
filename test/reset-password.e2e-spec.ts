@@ -7,14 +7,17 @@ import { INestApplication } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { getModelToken } from '@nestjs/mongoose';
 import { AppModule } from '../src/app.module';
+import { ResetPasswordModel } from '~/interfaces/reset-password';
 import { UserModel } from '~/interfaces/users';
 import { ValidationPipe422 } from '~/validation-pipe';
 
-describe('AuthController (e2e)', () => {
+describe('ResetPasswordController (e2e)', () => {
   let app: INestApplication;
 
-
+  let resetPasswordsCollection: Collection<ResetPasswordModel>;
   let usersCollection: Collection<UserModel>;
+
+  let resetPasswordDefault: ResetPasswordModel;
 
   const mockMailerService = {
     sendMail: async () => new Promise((resolve) => resolve()),
@@ -35,30 +38,36 @@ describe('AuthController (e2e)', () => {
     }));
     await app.init();
 
+    resetPasswordsCollection = app.get<Collection<ResetPasswordModel>>(getModelToken('ResetPassword'));
+
     usersCollection = app.get<Collection<UserModel>>(getModelToken('User'));
 
     await usersCollection.deleteMany({});
-    await usersCollection.create({
+    const user = await usersCollection.create({
       name: 'Test name',
-      email: 'test@test.com',
+      email: 'teste@teste.com.br',
       password: '123456',
+    });
+    await resetPasswordsCollection.deleteMany({});
+    resetPasswordDefault = await resetPasswordsCollection.create({
+      user: user._id,
     });
   });
 
-  it('/auth/registry (POST)', () => request(app.getHttpServer())
-    .post('/auth/registry')
-    .send({ name: 'Test name', email: 'jr.miranda@outlook.com', password: '123456' })
+  it('/auth/reset-password (POST)', () => request(app.getHttpServer())
+    .post('/auth/reset-password')
+    .send({ email: 'teste@teste.com.br' })
     .expect(201)
-    .expect('Cadastro efetuado com sucesso!'));
+    .expect('Solicitação efetuada com sucesso, verefique seu email!'));
 
-  it('/auth/registry (POST)', () => request(app.getHttpServer())
-    .post('/auth/registry')
-    .send({ email: 'jr.miranda@outlook.com', password: '123456' })
+  it('/auth/reset-password (PUT)', () => request(app.getHttpServer())
+    .put(`/auth/reset-password/${resetPasswordDefault.token}`)
+    .send({ password: 123456, passwordConfirm: 1234567 })
     .expect(422));
 
-  it('/auth/registry (POST)', () => request(app.getHttpServer())
-    .post('/auth/registry')
-    .send({ name: 'Test name', email: 'test@test.com', password: '123456' })
-    .expect(400)
-    .expect({ status: 400, error: 'Email já cadastrado!' }));
+  it('/auth/reset-password (PUT)', () => request(app.getHttpServer())
+    .put(`/auth/reset-password/${resetPasswordDefault.token}`)
+    .send({ password: 123456, passwordConfirm: 123456 })
+    .expect(200)
+    .expect('Senha alterada com sucesso!'));
 });

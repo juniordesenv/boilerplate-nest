@@ -1,4 +1,4 @@
-import { ApplyResetPasswordUserDto } from '~/dto/reset-password/apply-reset-password-user.dto';
+import { ApplyResetPasswordUserDto } from '~/modules/reset-password/dto';
 
 export interface ApplyResetPasswordRepository {
   updateByToken(applyPasswordUserDto: ApplyResetPasswordUserDto): Promise<null>

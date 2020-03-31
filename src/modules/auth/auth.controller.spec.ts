@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
-import { UsersService } from '~/users/users.service';
+import { UsersService } from '~/modules/users/users.service';
 import { MailerModule } from '~/config/mailer.module';
 
 describe('AuthController', () => {

@@ -1,4 +1,4 @@
-import { RequestResetPasswordUserDto } from '~/dto/reset-password/request-reset-password-user.dto';
+import { RequestResetPasswordUserDto } from '~/modules/reset-password/dto';
 
 export interface RequestResetPasswordRepository {
   create(resetPasswordUserDto: RequestResetPasswordUserDto): Promise<null>

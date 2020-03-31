@@ -4,15 +4,17 @@ import { InjectModel } from '@nestjs/mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import {
+  ResetPasswordModel,
+  SendResetPasswordEmail,
   RequestResetPasswordRepository,
-} from '~/interfaces/reset-password';
-import { RequestResetPasswordUserDto } from '~/dto/reset-password/request-reset-password-user.dto';
-import { ResetPasswordModel } from '~/interfaces/reset-password/reset-password-model.interface';
-import { UsersService } from '~/users/users.service';
-import { UserModel } from '~/interfaces/users';
-import { ApplyResetPasswordRepository } from '~/interfaces/reset-password/apply-reset-password-repository.interface';
-import { SendResetPasswordEmail } from '~/interfaces/reset-password/send-reset-password-email.interface';
-import { ApplyResetPasswordUserDto } from '~/dto/reset-password/apply-reset-password-user.dto';
+  ApplyResetPasswordRepository,
+} from '~/modules/reset-password/interfaces';
+import {
+  RequestResetPasswordUserDto,
+  ApplyResetPasswordUserDto,
+} from '~/modules/reset-password/dto';
+import { UsersService } from '~/modules/users/users.service';
+import { UserModel } from '~/modules/users/interfaces';
 
 @Injectable()
 export class ResetPasswordService implements

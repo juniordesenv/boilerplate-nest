@@ -4,8 +4,8 @@ import {
 import {
   ApiTags, ApiResponse,
 } from '@nestjs/swagger';
-import { RequestResetPasswordUserDto } from '~/dto/reset-password/request-reset-password-user.dto';
-import { ApplyResetPasswordUserDto } from '~/dto/reset-password/apply-reset-password-user.dto';
+import { RequestResetPasswordUserDto } from '~/modules/reset-password/dto/request-reset-password-user.dto';
+import { ApplyResetPasswordUserDto } from '~/modules/reset-password/dto/apply-reset-password-user.dto';
 import { ResetPasswordService } from './reset-password.service';
 
 @ApiTags('Auth')

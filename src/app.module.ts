@@ -1,14 +1,14 @@
 
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
 
 import { AppController } from './app.controller';
-import { AuthModule } from './auth/auth.module';
-import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { AuthController } from './modules/auth/auth.controller';
 
-import { ResetPasswordModule } from './reset-password/reset-password.module';
-import { ResetPasswordController } from './reset-password/reset-password.controller';
+import { ResetPasswordModule } from './modules/reset-password/reset-password.module';
+import { ResetPasswordController } from './modules/reset-password/reset-password.controller';
 
 import { DbModule } from '~/config/db.module';
 import { MailerModule } from '~/config/mailer.module';

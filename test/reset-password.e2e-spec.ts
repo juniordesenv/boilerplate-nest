@@ -8,8 +8,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { getModelToken } from '@nestjs/mongoose';
 import * as redis from 'redis-mock';
 import { AppModule } from '../src/app.module';
-import { ResetPasswordModel } from '~/interfaces/reset-password';
-import { UserModel } from '~/interfaces/users';
+import { ResetPasswordModel } from '~/modules/reset-password/interfaces';
+import { UserModel } from '~/modules/users/interfaces';
 import { ValidationPipe422 } from '~/validation-pipe';
 
 describe('ResetPasswordController (e2e)', () => {

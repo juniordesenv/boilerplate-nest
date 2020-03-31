@@ -6,8 +6,8 @@ import {
   LoadUserByEmailRepository,
   LoadUserByIdRepository,
   CreateUserRepository,
-} from '~/interfaces/users';
-import { CreateUserDto } from '~/dto/users/create-user.dto';
+} from '~/modules/users/interfaces';
+import { CreateUserDto } from '~/modules/users/dto';
 
 @Injectable()
 export class UsersService implements

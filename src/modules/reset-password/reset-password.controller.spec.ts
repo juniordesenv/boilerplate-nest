@@ -3,7 +3,7 @@ import { ConfigService, ConfigModule } from '@nestjs/config';
 import { getModelToken } from '@nestjs/mongoose';
 import { ResetPasswordService } from './reset-password.service';
 import { ResetPasswordController } from './reset-password.controller';
-import { UsersService } from '~/users/users.service';
+import { UsersService } from '~/modules/users/users.service';
 import { MailerModule } from '~/config/mailer.module';
 
 describe('ResetPasswordController', () => {

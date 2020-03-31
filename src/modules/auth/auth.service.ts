@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
-import { UsersService } from '~/users/users.service';
-import { UserModel } from '~/interfaces/users';
-import { CreateUserDto } from '~/dto/users/create-user.dto';
+import { UsersService } from '~/modules/users/users.service';
+import { UserModel } from '~/modules/users/interfaces';
+import { CreateUserDto } from '~/modules/users/dto';
 
 @Injectable()
 export class AuthService {

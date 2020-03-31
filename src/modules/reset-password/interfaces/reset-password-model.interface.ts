@@ -1,5 +1,5 @@
 import { Document, model } from 'mongoose';
-import { UserModel } from '~/interfaces/users';
+import { UserModel } from '~/modules/users/interfaces';
 
 interface ResetPasswordSchema extends Document {
   _id?: any;

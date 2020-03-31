@@ -8,7 +8,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { getModelToken } from '@nestjs/mongoose';
 import * as redis from 'redis-mock';
 import { AppModule } from '../src/app.module';
-import { UserModel } from '~/interfaces/users';
+import { UserModel } from '~/modules/users/interfaces';
 import { ValidationPipe422 } from '~/validation-pipe';
 
 describe('AuthController (e2e)', () => {

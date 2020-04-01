@@ -16,7 +16,7 @@ LoadUserByIdRepository,
 CreateUserRepository {
   constructor(@InjectModel('User') private userModel: Model<UserModel>) {}
 
-  loadById(_id: string): Promise<UserModel> {
+  async loadById(_id: string): Promise<UserModel> {
     return this.userModel.findOne({ _id }).exec();
   }
 

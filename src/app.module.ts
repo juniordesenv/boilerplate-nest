@@ -2,7 +2,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthController } from './modules/auth/auth.controller';
@@ -27,7 +26,6 @@ import { BullModule } from '~/config/queue.module';
     ResetPasswordModule,
   ],
   controllers: [
-    AppController,
     AuthController,
     ResetPasswordController,
   ],

@@ -78,7 +78,7 @@ describe('AuthController', () => {
         name: 'Teste',
       };
 
-      const httpResponse = await authController.registry(user);
+      const httpResponse = await authController.signup(user);
       expect(httpResponse).toBe(result);
     });
 
@@ -94,7 +94,7 @@ describe('AuthController', () => {
 
       jest.spyOn(authService, 'sendRegisterEmail').mockImplementationOnce(async () => new Promise((resolve) => resolve(null)));
 
-      await authController.registry(user);
+      await authController.signup(user);
       expect(addSpy).toHaveBeenCalledWith(user);
     });
   });

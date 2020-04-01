@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { v4 } from 'uuid';
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -28,6 +29,7 @@ const UserSchema = new mongoose.Schema({
 // eslint-disable-next-line func-names
 UserSchema.pre('save', function (next) {
   const user = this;
+  user.token = v4();
   if (user.password) {
     bcrypt.genSalt(9, (err, salt) => {
       if (err) next(err);

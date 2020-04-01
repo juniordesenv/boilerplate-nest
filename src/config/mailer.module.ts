@@ -1,6 +1,7 @@
 
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HandlebarsAdapter, MailerModule as NestMailerModule } from '@nestjs-modules/mailer';
+import * as path from 'path';
 
 export const MailerModule: any = NestMailerModule.forRootAsync({
   imports: [ConfigModule],
@@ -15,7 +16,7 @@ export const MailerModule: any = NestMailerModule.forRootAsync({
       },
     },
     template: {
-      dir: `${__dirname}/templates`,
+      dir: path.join(__dirname, '/../templates'),
       adapter: new HandlebarsAdapter(),
       options: {
         strict: true,

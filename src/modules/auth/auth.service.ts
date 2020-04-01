@@ -3,9 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
+import * as bcrypt from 'bcrypt';
 import { UsersService } from '~/modules/users/users.service';
 import { UserModel } from '~/modules/users/interfaces';
 import { CreateUserDto } from '~/modules/users/dto';
+
 
 @Injectable()
 export class AuthService {
@@ -17,8 +19,8 @@ export class AuthService {
   ) { }
 
   async validateUser(email: string, pass: string): Promise<any> {
-    const user = await this.usersService.loadByEmail(email);
-    if (user && user.password === pass) {
+    const user = await this.usersService.loadByEmail(email, true);
+    if (user && bcrypt.compareSync(pass, user.password)) {
       const { password, ...result } = user;
       return result;
     }
@@ -62,5 +64,9 @@ export class AuthService {
           frontEndUrl: this.configService.get<string>('FRONT_END_URL'),
         },
       });
+  }
+
+  async confirmEmailUser(token: string) {
+    return this.usersService.confirmEmail(token);
   }
 }

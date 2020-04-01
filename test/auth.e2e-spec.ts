@@ -6,26 +6,40 @@ import { defaultBeforeAll } from './init';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
+  let user;
 
   beforeAll(async () => {
     const result = await defaultBeforeAll();
     app = result.app;
+    user = result.user;
   });
 
-  it('/auth/registry (POST)', () => request(app.getHttpServer())
-    .post('/auth/registry')
+  it('/auth/signup (POST)', () => request(app.getHttpServer())
+    .post('/auth/signup')
     .send({ name: 'Test name', email: 'jr.miranda@outlook.com', password: '123456' })
     .expect(201)
     .expect('Cadastro efetuado com sucesso!'));
 
-  it('/auth/registry (POST)', () => request(app.getHttpServer())
-    .post('/auth/registry')
+  it('/auth/signup (POST)', () => request(app.getHttpServer())
+    .post('/auth/signup')
     .send({ email: 'jr.miranda@outlook.com', password: '123456' })
     .expect(422));
 
-  it('/auth/registry (POST)', () => request(app.getHttpServer())
-    .post('/auth/registry')
+  it('/auth/signup (POST)', () => request(app.getHttpServer())
+    .post('/auth/signup')
     .send({ name: 'Test name', email: 'test@test.com', password: '123456' })
     .expect(400)
     .expect({ status: 400, error: 'Email já cadastrado!' }));
+
+  it('/auth/signup/confirm/:token (PUT) and LOGIN', (done) => request(app.getHttpServer())
+    .put(`/auth/signup/confirm/${user.confirmToken}`)
+    .expect(200)
+    .end((err) => {
+      if (err) return done(err);
+      return request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ username: user.email, password: '123456' })
+        .expect(200)
+        .expect('Cadastro efetuado com sucesso!', done);
+    }));
 });

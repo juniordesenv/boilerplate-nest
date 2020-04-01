@@ -31,15 +31,8 @@ describe('AuthController (e2e)', () => {
     .expect(400)
     .expect({ status: 400, error: 'Email já cadastrado!' }));
 
-  it('/auth/signup/confirm/:token (PUT) and LOGIN', (done) => request(app.getHttpServer())
+  it('/auth/signup/confirm/:token (PUT) and LOGIN', () => request(app.getHttpServer())
     .put(`/auth/signup/confirm/${user.confirmToken}`)
     .expect(200)
-    .end((err) => {
-      if (err) return done(err);
-      return request(app.getHttpServer())
-        .post('/auth/login')
-        .send({ username: user.email, password: '123456' })
-        .expect(200)
-        .expect('Cadastro efetuado com sucesso!', done);
-    }));
+    .expect('Email confirmado com sucesso!'));
 });

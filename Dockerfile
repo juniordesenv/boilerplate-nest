@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:12-stretch
 LABEL maintainer = 'Junior Miranda'
 
 ENV API=/home/api

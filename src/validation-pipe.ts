@@ -9,7 +9,7 @@ export class ValidationPipe422 extends ValidationPipe {
       return await super.transform(value, metadata);
     } catch (e) {
       if (e instanceof BadRequestException) {
-        throw new UnprocessableEntityException(e.message.message);
+        throw new UnprocessableEntityException(e.message);
       }
     }
   }

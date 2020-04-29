@@ -1,6 +1,6 @@
-import { ResetPasswordModel } from '~/modules/reset-password/interfaces/reset-password-model.interface';
-import { UserModel } from '~/modules/users/interfaces/user-model.interface';
+import { User } from '~/modules/users/model/user.model';
+import { ResetPassword } from '~/modules/reset-password/model/reset.password.model';
 
 export interface SendResetPasswordEmail {
-  sendResetPasswordEmail(user: UserModel, resetPassword: ResetPasswordModel): Promise<void>
+  sendResetPasswordEmail(user: User, resetPassword: ResetPassword): Promise<void>
 }

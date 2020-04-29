@@ -1,14 +1,14 @@
-import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { DocumentType, ReturnModelType } from '@typegoose/typegoose';
 import {
-  UserModel,
   LoadUserByEmailRepository,
   LoadUserByIdRepository,
   CreateUserRepository,
   ConfirmEmailUserRepository,
 } from '~/modules/users/interfaces';
 import { CreateUserDto } from '~/modules/users/dto';
+import { User } from '~/modules/users/model/user.model';
 
 @Injectable()
 export class UsersService implements
@@ -16,21 +16,22 @@ LoadUserByEmailRepository,
 LoadUserByIdRepository,
 CreateUserRepository,
 ConfirmEmailUserRepository {
-  constructor(@InjectModel('User') private userModel: Model<UserModel>) {}
+  constructor(@InjectModel('User') private userModel: ReturnModelType<typeof User>) {}
 
-  async loadById(_id: string): Promise<UserModel> {
+  async loadById(_id: string): Promise<DocumentType<User>> {
     return this.userModel.findOne({ _id }).exec();
   }
 
-  async loadByEmail(email: string, verifiedEmail?: boolean | undefined): Promise<UserModel> {
+  async loadByEmail(email: string,
+    verifiedEmail?: boolean | undefined): Promise<DocumentType<User>> {
     return this.userModel.findOne({ email, verifiedEmail }).exec();
   }
 
-  async create(createUserDto: CreateUserDto): Promise<UserModel> {
+  async create(createUserDto: CreateUserDto): Promise<DocumentType<User>> {
     return this.userModel.create(createUserDto);
   }
 
-  confirmEmail(token: string): Promise<UserModel> {
+  confirmEmail(token: string): Promise<DocumentType<User>> {
     return this.userModel.findOneAndUpdate({
       confirmToken: token,
     },
@@ -39,6 +40,6 @@ ConfirmEmailUserRepository {
         verifiedEmail: true,
       },
     },
-    { new: true });
+    { new: true }).exec();
   }
 }

@@ -1,5 +1,5 @@
-import { UserModel } from './user-model.interface';
+import { User } from '~/modules/users/model/user.model';
 
 export interface LoadUserByIdRepository {
-  loadById(_id: string): Promise<UserModel>
+  loadById(_id: string): Promise<User>
 }

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import * as helmet from 'helmet';
-import * as rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ValidationPipe422 } from './validation-pipe';

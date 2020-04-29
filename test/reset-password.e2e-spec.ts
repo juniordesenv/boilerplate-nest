@@ -1,25 +1,25 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import * as request from 'supertest';
-import { Collection } from 'mongoose';
+import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
-import { ResetPasswordModel } from '~/modules/reset-password/interfaces';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { defaultBeforeAll } from './init';
+import { ResetPassword } from '../src/modules/reset-password/model/reset.password.model';
 
 describe('ResetPasswordController (e2e)', () => {
   let app: INestApplication;
 
-  let resetPasswordsCollection: Collection<ResetPasswordModel>;
+  let resetPasswordsCollection: ReturnModelType<typeof ResetPassword>;
 
-  let resetPasswordDefault: ResetPasswordModel;
+  let resetPasswordDefault: ResetPassword;
 
   beforeAll(async () => {
     const result = await defaultBeforeAll();
     app = result.app;
     const { user } = result;
 
-    resetPasswordsCollection = app.get<Collection<ResetPasswordModel>>(getModelToken('ResetPassword'));
+    resetPasswordsCollection = app.get(getModelToken('ResetPassword'));
 
     await resetPasswordsCollection.deleteMany({});
     resetPasswordDefault = await resetPasswordsCollection.create({

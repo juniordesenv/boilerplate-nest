@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypegooseModule } from 'nestjs-typegoose';
 import { ConfigService } from '@nestjs/config';
 import { ResetPasswordService } from './reset-password.service';
-import { ResetPasswordSchema } from '~/modules/reset-password/schemas/reset-password.schema';
 import { UsersModule } from '~/modules/users/users.module';
+import { ResetPasswordController } from '~/modules/reset-password/reset-password.controller';
+import { ResetPassword } from '~/modules/reset-password/model/reset.password.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'ResetPassword', schema: ResetPasswordSchema }]),
+    TypegooseModule.forFeature([ResetPassword]),
     UsersModule,
     ConfigService,
   ],
@@ -15,6 +16,7 @@ import { UsersModule } from '~/modules/users/users.module';
     ResetPasswordService,
     ConfigService,
   ],
+  controllers: [ResetPasswordController],
   exports: [ResetPasswordService],
 })
 export class ResetPasswordModule {}

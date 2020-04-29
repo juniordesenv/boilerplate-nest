@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEqualTo } from '~/validation/isEqualTo';
+import { IsEqualTo } from '~/validation/is-equal-to';
 
 export class ApplyResetPasswordUserDto {
   token?: string;

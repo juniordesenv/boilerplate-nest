@@ -1,13 +1,13 @@
 
 import { MailerService } from '@nestjs-modules/mailer';
 import { getModelToken } from '@nestjs/mongoose';
-import * as redis from 'redis-mock';
-import { Collection } from 'mongoose';
+import redis from 'redis-mock';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { AppModule } from '../src/app.module';
-import { UserModel } from '../src/modules/users/interfaces';
 import { ValidationPipe422 } from '../src/validation-pipe';
+import { User } from '../src/modules/users/model/user.model';
 
 let app: INestApplication;
 
@@ -31,7 +31,7 @@ export const defaultBeforeAll = async () => {
   }));
   await app.init();
 
-  const usersCollection: Collection<UserModel> = app.get<Collection<UserModel>>(getModelToken('User'));
+  const usersCollection: ReturnModelType<typeof User> = app.get(getModelToken('User'));
 
   await usersCollection.deleteMany({});
   const user = await usersCollection.create({

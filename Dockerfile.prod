@@ -9,10 +9,10 @@ WORKDIR $API
 
 COPY ./package.json package.json
 
-RUN yarn install 
+RUN yarn install
+
+COPY . .
 
 RUN yarn build
 
-COPY ./dist dist
-
-CMD start:prod
+CMD yarn start:prod

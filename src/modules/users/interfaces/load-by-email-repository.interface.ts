@@ -1,5 +1,5 @@
-import { UserModel } from './user-model.interface';
+import { User } from '~/modules/users/model/user.model';
 
 export interface LoadUserByEmailRepository {
-  loadByEmail(email: string): Promise<UserModel>
+  loadByEmail(email: string): Promise<User>
 }

@@ -1,10 +1,9 @@
-import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { ReturnModelType } from '@typegoose/typegoose';
 import {
-  ResetPasswordModel,
   SendResetPasswordEmail,
   RequestResetPasswordRepository,
   ApplyResetPasswordRepository,
@@ -14,7 +13,8 @@ import {
   ApplyResetPasswordUserDto,
 } from '~/modules/reset-password/dto';
 import { UsersService } from '~/modules/users/users.service';
-import { UserModel } from '~/modules/users/interfaces';
+import { ResetPassword } from '~/modules/reset-password/model/reset.password.model';
+import { User } from '~/modules/users/model/user.model';
 
 @Injectable()
 export class ResetPasswordService implements
@@ -22,7 +22,7 @@ RequestResetPasswordRepository,
 SendResetPasswordEmail,
 ApplyResetPasswordRepository {
   constructor(
-    @InjectModel('ResetPassword') private resetPassword: Model<ResetPasswordModel>,
+    @InjectModel('ResetPassword') private resetPassword: ReturnModelType<typeof ResetPassword>,
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
@@ -30,7 +30,7 @@ ApplyResetPasswordRepository {
 
   async create(
     resetPasswordUserDto: RequestResetPasswordUserDto,
-  ): Promise<ResetPasswordModel | null> {
+  ): Promise<ResetPassword | null> {
     const user = await this.usersService.loadByEmail(resetPasswordUserDto.email);
     if (!user) return null;
     const resetPassword = await this.resetPassword.create({ user: user._id });
@@ -39,7 +39,7 @@ ApplyResetPasswordRepository {
   }
 
 
-  async sendResetPasswordEmail(user: UserModel, resetPassword: ResetPasswordModel) {
+  async sendResetPasswordEmail(user: User, resetPassword: ResetPassword) {
     await this
       .mailerService
       .sendMail({
@@ -64,9 +64,9 @@ ApplyResetPasswordRepository {
       expiredAt: { $gte: new Date() },
     });
     if (!resetPassword) throw Error('ExpiredOrNotFound');
-    const user: UserModel = await this.usersService.loadById(resetPassword.user);
+    const user = await this.usersService.loadById(resetPassword.user.toString());
     user.password = applyPasswordUserDto.password;
-    user.save();
+    await user.save();
     return null;
   }
 }

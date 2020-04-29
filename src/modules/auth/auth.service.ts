@@ -3,10 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { UsersService } from '~/modules/users/users.service';
-import { UserModel } from '~/modules/users/interfaces';
 import { CreateUserDto } from '~/modules/users/dto';
+import { User } from '~/modules/users/model/user.model';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: UserModel) {
+  async login(user: User) {
     const payload = { email: user.email, sub: user._id };
     return {
       accessToken: this.jwtService.sign(payload),
@@ -36,7 +36,7 @@ export class AuthService {
 
   async createUser(createUserDto: CreateUserDto) {
     const confirmToken = v4();
-    const user = await this.usersService.create({
+    const user: any = await this.usersService.create({
       ...createUserDto,
       confirmToken,
     });
@@ -46,7 +46,7 @@ export class AuthService {
         confirmToken,
       });
     } catch (err) {
-      user.delete();
+      await user.remove();
       throw err;
     }
   }
